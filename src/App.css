@@ -50,15 +50,23 @@
 .form-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 25px; border-bottom: 1px solid #e2e6eb; }
 .form-header span { color: #d97706; text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; font-weight: 800; }
 .form-header h3 { color: var(--navy); font: 700 32px 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 5px 0 0; }
+.form-header h3 small { display: block; margin-top: 3px; color: #6e7989; font: 600 15px 'Barlow Condensed', sans-serif; letter-spacing: .2px; }
 .secure-note { color: #6e7989 !important; padding-top: 8px; }
 .urgency-toggle { margin: 25px 0; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; background: #eef1f5; border-radius: 5px; }
 .urgency-toggle button { border: 0; padding: 11px; background: transparent; color: #697486; font-size: 12px; font-weight: 700; cursor: pointer; border-radius: 3px; }
 .urgency-toggle button.active { background: white; color: var(--navy); box-shadow: 0 2px 8px rgba(7,26,54,.1); }
-.request-form label { display: grid; gap: 7px; margin-bottom: 18px; color: #364154; font-size: 11px; text-transform: uppercase; letter-spacing: .7px; font-weight: 800; }
+.request-form label { position: relative; display: grid; gap: 7px; margin-bottom: 18px; color: #364154; font-size: 11px; text-transform: uppercase; letter-spacing: .7px; font-weight: 800; }
 .request-form label small { color: #8a94a3; font-weight: 500; }
+.request-form label > b { position: absolute; top: 0; right: 0; color: #c44d19; font-size: 15px; line-height: 1; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.request-form input, .request-form select, .request-form textarea { width: 100%; padding: 13px 14px; color: var(--navy); background: #f7f8fa; border: 1px solid #dce1e7; border-radius: 3px; outline: none; text-transform: none; font-size: 14px; font-weight: 400; resize: vertical; }
+.field-control { position: relative; display: block; }
+.field-icon { position: absolute; z-index: 1; top: 50%; left: 14px; width: 18px; height: 18px; transform: translateY(-50%); fill: none; stroke: #7c8797; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.textarea-control .field-icon { top: 15px; transform: none; }
+.request-form input, .request-form select, .request-form textarea { width: 100%; padding: 13px 14px 13px 43px; color: var(--navy); background: #f7f8fa; border: 1px solid #dce1e7; border-radius: 3px; outline: none; text-transform: none; font-size: 14px; font-weight: 400; resize: vertical; }
 .request-form input:focus, .request-form select:focus, .request-form textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(243,154,25,.14); }
+.request-form [aria-invalid="true"] { border-color: #c9362b; background: #fff8f7; box-shadow: 0 0 0 2px rgba(201,54,43,.1); }
+.field-control:focus-within .field-icon { stroke: var(--orange); }
+.field-error { display: block; margin-top: -2px; color: #b42318; font-size: 11px; font-weight: 700; letter-spacing: 0; text-transform: none; }
 .submit-button { width: 100%; min-height: 52px; border: 0; border-radius: 4px; background: var(--yellow); color: var(--navy); font-weight: 800; cursor: pointer; transition: .2s; }
 .submit-button:disabled { cursor: wait; opacity: .7; transform: none; }
 .submit-button span { margin-left: 12px; }
