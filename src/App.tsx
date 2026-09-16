@@ -23,6 +23,10 @@ function PhoneIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7 2.4 9.4 7c.3.6.2 1.2-.3 1.7l-1.4 1.4a14.8 14.8 0 0 0 6.2 6.2l1.4-1.4c.5-.5 1.1-.6 1.7-.3l4.6 2.7c.5.3.8.9.7 1.5l-.3 2.1c-.1.7-.7 1.2-1.4 1.2C10.3 22 2 13.7 2 3.4 2 2.7 2.5 2.1 3.2 2l2.1-.3c.6-.1 1.1.2 1.4.7Z" /></svg>
 }
 
+function MessageIcon() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v13H8l-4 4V4Zm4 5h8m-8 4h5" /></svg>
+}
+
 type FieldName = 'name' | 'phone' | 'service' | 'location'
 type FieldIconName = FieldName | 'details'
 
@@ -96,10 +100,10 @@ function App() {
 
     <div className="site-shell">
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="Cabrera Towing home"><span className="brand-mark">CT</span><span>Cabrera Towing <small>Inc.</small></span></a>
+        <a className="brand top-logo-link" href="#top" aria-label="Cabrera Towing home"><img className="top-logo" src={cabreraLogo} alt="Cabrera Towing" /></a>
         <nav aria-label="Main navigation"><a href="#services">Services · Servicios</a><a href="#request">Request · Solicitud</a></nav>
         <div className="top-actions">
-          <a className="message-button compact" href={`sms:${phoneNumber}`}>Text Now / Mensaje Ahora</a>
+          <a className="message-button compact" href={`sms:${phoneNumber}`}><MessageIcon /> Text Now / Mensaje Ahora</a>
           <a className="call-button compact" href={`tel:${phoneNumber}`}><PhoneIcon /> Call Now / Llame Ahora</a>
         </div>
       </header>
@@ -109,8 +113,6 @@ function App() {
           <div className="hero-overlay">
             <span className="eyebrow"><i /> Available 24/7 · Disponible 24/7</span>
             <h1 id="hero-title">Fast roadside help.<small>Ayuda rápida en carretera.</small></h1>
-            <p>Towing and roadside assistance when you need it.<br /><strong>Servicio de grúa y asistencia cuando la necesite.</strong></p>
-            <p className="hours-line"><span>Hours / Horario</span> Open 24 hours, 7 days a week<br />Abierto las 24 horas, los 7 días</p>
           </div>
           <div className="hero-image-wrap"><img className="hero-art" src={towingHeader} alt="Cabrera Towing trucks and bilingual 24-hour roadside service information" /></div>
         </section>

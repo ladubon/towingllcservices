@@ -1,22 +1,26 @@
-:root { --navy: #490b13; --orange: #d72b25; --yellow: #ffc329; }
+:root { --navy: #071a36; --orange: #9aa6b2; --yellow: #dce2e8; }
 .site-shell { min-height: 100vh; overflow: hidden; background: #fff; }
 .topbar { height: 78px; padding: 0 clamp(24px, 5vw, 76px); display: flex; align-items: center; justify-content: space-between; color: white; background: var(--navy); position: relative; z-index: 10; }
 .brand { display: flex; align-items: center; gap: 11px; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 23px; text-transform: uppercase; text-decoration: none; letter-spacing: .4px; }
 .brand small { color: var(--yellow); font-size: .65em; }
 .brand-mark { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--yellow); color: var(--navy); border: 3px solid var(--orange); font-size: 19px; }
+.top-logo-link { align-self: stretch; overflow: visible; }
+.top-logo { display: block; width: 62px; height: 62px; object-fit: cover; border: 2px solid var(--yellow); border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,.3); }
 .topbar nav { display: flex; gap: 34px; }
 .topbar nav a { text-decoration: none; font-size: 14px; font-weight: 600; color: #cbd5e3; }
 .topbar nav a:hover { color: white; }
 .top-actions { display: flex; align-items: center; gap: 9px; }
+.top-actions .compact { padding-inline: 12px; font-size: 12px; white-space: nowrap; }
 .call-button, .secondary-button { min-height: 48px; padding: 0 22px; display: inline-flex; justify-content: center; align-items: center; gap: 10px; border-radius: 5px; text-decoration: none; font-weight: 800; border: 1px solid transparent; }
-.message-button { display: inline-flex; align-items: center; justify-content: center; color: white; border: 1px solid rgba(255,255,255,.55); border-radius: 5px; text-decoration: none; font-weight: 800; }
+.message-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: white; border: 1px solid rgba(255,255,255,.55); border-radius: 5px; text-decoration: none; font-weight: 800; }
+.message-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .message-button:hover { color: var(--navy); background: white; }
 .call-button { color: var(--navy); background: var(--yellow); box-shadow: 0 7px 20px rgba(243,154,25,.25); }
 .call-button:hover, .submit-button:hover { background: #ffd154; transform: translateY(-1px); }
 .call-button svg, .phone-link svg { width: 19px; fill: currentColor; }
 .compact { min-height: 42px; padding: 0 18px; font-size: 14px; }
 .hero-section { min-height: clamp(560px, 58vw, 760px); position: relative; display: flex; align-items: center; isolation: isolate; overflow: hidden; background: var(--navy); }
-.hero-section::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(54,5,12,.9) 0%, rgba(54,5,12,.68) 30%, rgba(54,5,12,.08) 58%, transparent 75%); }
+.hero-section::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(4,18,39,.9) 0%, rgba(4,18,39,.68) 30%, rgba(4,18,39,.08) 58%, transparent 75%); }
 .hero-image-wrap { position: absolute; inset: 0; z-index: -2; }
 .hero-art { display: block; width: 100%; max-width: none; height: 100%; object-fit: cover; object-position: center; }
 .hero-overlay { color: white; width: min(570px, 48%); padding: 65px 0 65px clamp(30px, 6vw, 100px); }
@@ -28,26 +32,26 @@
 .hero-overlay p { max-width: 545px; margin: 0; color: #d4dce8; font-size: 18px; line-height: 1.65; }
 .hero-overlay p strong { color: white; font-weight: 600; }
 .hero-actions { display: flex; gap: 12px; margin-top: 34px; }
-.secondary-button { color: white; border-color: rgba(255,255,255,.55); background: rgba(73,11,19,.4); backdrop-filter: blur(8px); }
+.secondary-button { color: white; border-color: rgba(255,255,255,.55); background: rgba(7,26,54,.4); backdrop-filter: blur(8px); }
 .secondary-button:hover { background: white; color: var(--navy); }
 .hours-line { margin-top: 28px !important; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.16); font-size: 13px !important; }
 .hours-line span { display: block; color: var(--yellow); font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
 .section { padding: 120px clamp(24px, 7vw, 110px); }
 .section-heading { max-width: 670px; margin: 0 auto 55px; text-align: center; }
-.eyebrow.dark { color: #d97706; }
+.eyebrow.dark { color: #667789; }
 .section-heading h2, .request-copy h2 { color: var(--navy); font-size: clamp(44px, 6vw, 66px); margin: 14px 0 20px; }
 .section-heading p { color: #6b7584; line-height: 1.7; }
 .service-grid { max-width: 1120px; margin: auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
 .service-grid article { min-height: 250px; padding: 34px; background: #f5f7fa; border-top: 3px solid var(--navy); transition: .2s ease; }
-.service-grid article:hover { transform: translateY(-5px); box-shadow: 0 18px 38px rgba(73,11,19,.1); border-color: var(--orange); }
+.service-grid article:hover { transform: translateY(-5px); box-shadow: 0 18px 38px rgba(7,26,54,.1); border-color: var(--orange); }
 .service-grid h3 { color: var(--navy); font: 700 29px 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 12px 0; }
 .service-grid p { color: #6b7584; line-height: 1.65; font-size: 14px; margin: 0; }
 .work-section { padding: 105px clamp(20px, 7vw, 100px) 120px; background: #f3f5f8; }
 .slideshow { width: min(1050px, 100%); margin: 0 auto; }
-.slide-frame { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #2b070c; box-shadow: 0 24px 55px rgba(73,11,19,.22); }
+.slide-frame { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #0a1527; box-shadow: 0 24px 55px rgba(7,26,54,.22); }
 .work-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.025); transition: opacity .55s ease, transform 5s ease; }
 .work-slide.active { opacity: 1; transform: scale(1); }
-.slide-arrow { position: absolute; z-index: 2; top: 50%; width: 48px; height: 58px; transform: translateY(-50%); border: 0; color: white; background: rgba(54,5,12,.76); font-size: 38px; line-height: 1; cursor: pointer; }
+.slide-arrow { position: absolute; z-index: 2; top: 50%; width: 48px; height: 58px; transform: translateY(-50%); border: 0; color: white; background: rgba(4,17,39,.76); font-size: 38px; line-height: 1; cursor: pointer; }
 .slide-arrow:hover { color: var(--navy); background: var(--yellow); }
 .slide-arrow.previous { left: 0; }
 .slide-arrow.next { right: 0; }
@@ -66,13 +70,13 @@
 .form-logo { position: absolute; z-index: 2; top: 0; left: 50%; width: 145px; height: 145px; object-fit: cover; transform: translateX(-50%); border-radius: 50%; border: 5px solid white; background: #111; box-shadow: 0 12px 28px rgba(0,0,0,.35); }
 .request-form { background: white; padding: 88px clamp(25px, 4vw, 44px) clamp(25px, 4vw, 44px); box-shadow: 0 25px 70px rgba(0,0,0,.25); }
 .form-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 25px; border-bottom: 1px solid #e2e6eb; }
-.form-header span { color: #d97706; text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; font-weight: 800; }
+.form-header span { color: #667789; text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; font-weight: 800; }
 .form-header h3 { color: var(--navy); font: 700 32px 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 5px 0 0; }
 .form-header h3 small { display: block; margin-top: 3px; color: #6e7989; font: 600 15px 'Barlow Condensed', sans-serif; letter-spacing: .2px; }
 .secure-note { color: #6e7989 !important; padding-top: 8px; }
 .urgency-toggle { margin: 25px 0; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; background: #eef1f5; border-radius: 5px; }
 .urgency-toggle button { border: 0; padding: 11px; background: transparent; color: #697486; font-size: 12px; font-weight: 700; cursor: pointer; border-radius: 3px; }
-.urgency-toggle button.active { background: white; color: var(--navy); box-shadow: 0 2px 8px rgba(73,11,19,.1); }
+.urgency-toggle button.active { background: white; color: var(--navy); box-shadow: 0 2px 8px rgba(7,26,54,.1); }
 .request-form label { position: relative; display: grid; gap: 7px; margin-bottom: 18px; color: #364154; font-size: 11px; text-transform: uppercase; letter-spacing: .7px; font-weight: 800; }
 .request-form label small { color: #8a94a3; font-weight: 500; }
 .request-form label > b { position: absolute; top: 0; right: 0; color: #c44d19; font-size: 15px; line-height: 1; }
@@ -97,13 +101,13 @@
 .form-success h3 { margin: 20px 0 8px; color: var(--navy); font: 700 34px 'Barlow Condensed', sans-serif; text-transform: uppercase; }
 .form-success p { margin: 0 0 25px; color: #6b7584; }
 .form-success button { padding: 10px 16px; border: 1px solid #cbd2dc; border-radius: 4px; color: var(--navy); background: white; font-weight: 700; cursor: pointer; }
-footer { min-height: 120px; padding: 25px clamp(24px, 6vw, 90px); display: flex; justify-content: space-between; align-items: center; background: #26050a; color: white; }
+footer { min-height: 120px; padding: 25px clamp(24px, 6vw, 90px); display: flex; justify-content: space-between; align-items: center; background: #041127; color: white; }
 footer p { color: #8391a6; font-size: 12px; }
 footer > a { color: var(--yellow); font: 700 24px 'Barlow Condensed', sans-serif; text-decoration: none; }
 /* Stack the hero artwork above its copy on tablets and phones to prevent overlap. */
 @media (max-width: 800px) {
-  .topbar { height: 68px; padding: 0 18px; } .topbar nav { display: none; } .brand { font-size: 18px; } .brand-mark { width: 36px; height: 36px; font-size: 16px; } .compact { padding: 0 12px; min-height: 38px; } .compact svg { display: none; }
-  .hero-section { min-height: 0; display: block; } .hero-section::after { display: none; } .hero-image-wrap { position: relative; z-index: auto; width: 100%; aspect-ratio: 4 / 3; } .hero-art { height: 100%; object-fit: cover; object-position: center; } .hero-overlay { width: 100%; padding: 48px 24px 55px; } .hero-overlay h1 { font-size: clamp(43px, 13vw, 58px); } .hero-overlay p { font-size: 15px; }
+  .topbar { height: 68px; padding: 0 18px; } .topbar nav { display: none; } .brand { font-size: 18px; } .brand-mark { width: 36px; height: 36px; font-size: 16px; } .compact { padding: 0 12px; min-height: 38px; }
+  .hero-section { min-height: 0; display: block; } .hero-section::after { display: none; } .hero-image-wrap { position: relative; z-index: auto; width: 100%; aspect-ratio: 4 / 3; } .hero-art { height: 100%; object-fit: cover; object-position: center; } .hero-overlay { width: 100%; padding: 30px 24px 55px; } .hero-overlay h1 { font-size: clamp(43px, 13vw, 58px); } .hero-overlay p { font-size: 15px; }
   .section { padding: 80px 20px; } .service-grid { grid-template-columns: 1fr; } .service-grid article { min-height: 180px; }
   .work-section { padding: 75px 16px 85px; } .slide-frame { aspect-ratio: 4 / 3; }
   .request-section { padding: 75px 20px; grid-template-columns: 1fr; } .field-row { grid-template-columns: 1fr; gap: 0; }
@@ -112,9 +116,12 @@ footer > a { color: var(--yellow); font: 700 24px 'Barlow Condensed', sans-serif
 /* Give the bilingual call and text actions their own row on narrow phone screens. */
 @media (max-width: 640px) {
   .topbar { height: auto; min-height: 108px; padding: 10px 14px 12px; flex-wrap: wrap; gap: 8px; }
-  .topbar .brand { width: 100%; justify-content: center; }
+  .topbar .brand { width: 100%; height: 52px; justify-content: center; }
+  .top-logo { width: 48px; height: 48px; }
   .top-actions { width: 100%; gap: 7px; }
-  .top-actions .compact { flex: 1; min-width: 0; min-height: 38px; padding: 0 7px; font-size: 10px; white-space: nowrap; }
+  .top-actions .compact { flex: 1; min-width: 0; min-height: 38px; padding: 0 5px; font-size: 9px; white-space: nowrap; }
+  .top-actions .compact { gap: 4px; }
+  .top-actions .compact svg { width: 14px; height: 14px; }
   .hero-overlay h1 small { font-size: .4em; }
   .slide-arrow { width: 40px; height: 48px; }
   .request-form { padding-inline: 20px; }
