@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { FormEvent, PointerEvent } from 'react'
 import { useForm, ValidationError } from '@formspree/react'
 import towingHeader from './assets/cabrera_header.png'
 import cabreraLogo from './assets/cabrera_logo.png'
@@ -45,6 +45,8 @@ function FieldIcon({ name }: { name: FieldIconName }) {
 function App() {
   const [urgent, setUrgent] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isRequestOpen, setIsRequestOpen] = useState(true)
+  const swipeStartX = useRef<number | null>(null)
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({})
   //Formspree format when forwarded towards set email params
   const [formState, handleSubmit, resetForm] = useForm('xdeodlea', {
@@ -60,7 +62,36 @@ function App() {
       setCurrentSlide((current) => (current + 1) % workImages.length)
     }, 5000)
     return () => window.clearInterval(timer)
-  }, [])
+  }, [currentSlide])
+
+  useEffect(() => {
+    if (!isRequestOpen) return
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsRequestOpen(false)
+    }
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [isRequestOpen])
+
+  function handleSwipeStart(event: PointerEvent<HTMLDivElement>) {
+    swipeStartX.current = event.clientX
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  function handleSwipeEnd(event: PointerEvent<HTMLDivElement>) {
+    if (swipeStartX.current === null) return
+    const distance = event.clientX - swipeStartX.current
+    swipeStartX.current = null
+
+    if (Math.abs(distance) < 45) return
+    setCurrentSlide((current) => distance < 0
+      ? (current + 1) % workImages.length
+      : (current - 1 + workImages.length) % workImages.length)
+  }
 
   function clearFieldError(field: FieldName) {
     setFieldErrors((current) => ({ ...current, [field]: undefined }))
@@ -113,6 +144,7 @@ function App() {
           <div className="hero-overlay">
             <span className="eyebrow"><i /> Available 24/7 · Disponible 24/7</span>
             <h1 id="hero-title">Fast roadside help.<small>Ayuda rápida en carretera.</small></h1>
+            <a className="request-cta" href="#request">Request Service · Solicitar Servicio <span aria-hidden="true">↓</span></a>
           </div>
           <div className="hero-image-wrap"><img className="hero-art" src={towingHeader} alt="Cabrera Towing trucks and bilingual 24-hour roadside service information" /></div>
         </section>
@@ -134,7 +166,7 @@ function App() {
           </div>
 
           <div className="slideshow">
-            <div className="slide-frame">
+            <div className="slide-frame" onPointerDown={handleSwipeStart} onPointerUp={handleSwipeEnd} onPointerCancel={() => { swipeStartX.current = null }}>
               {workImages.map((image, index) => (
                 <img key={image} className={index === currentSlide ? 'work-slide active' : 'work-slide'} src={image} alt="Cabrera Towing service work" aria-hidden={index !== currentSlide} />
               ))}
@@ -149,13 +181,14 @@ function App() {
 
         <section className="request-section" id="request">
           <div className="request-copy">
-            <span className="eyebrow">Need help? · ¿Necesita ayuda?</span><h2>Tell us where you are.<small>Díganos dónde está.</small></h2>
-            <p>Send a quick request and we’ll contact you. Envíe una solicitud rápida y nos comunicaremos con usted.</p>
-            <a className="phone-link" href={`tel:${phoneNumber}`}><PhoneIcon /><span><small>Call or text · Llame o mande mensaje</small>{phoneDisplay}</span></a>
+            <span className="eyebrow">Need help? · ¿Necesita ayuda?</span><h2>Send a quick request.<small>Envíe una solicitud rápida.</small></h2>
+            <p>We’ll contact you as soon as possible. Nos comunicaremos con usted lo antes posible.</p>
             <div className="hours-card"><strong>Hours · Horario</strong><span>Open 24 hours · Abierto las 24 horas</span><span>Monday – Sunday · Lunes – Domingo</span></div>
           </div>
 
-          <div className="request-form-wrap">
+          <div className={`request-form-wrap${isRequestOpen ? ' modal-open' : ''}`} role={isRequestOpen ? 'dialog' : undefined} aria-modal={isRequestOpen ? 'true' : undefined} aria-label={isRequestOpen ? 'Service request form' : undefined}>
+          <button className="modal-backdrop" type="button" aria-label="Close request form" onClick={() => setIsRequestOpen(false)} />
+          <button className="modal-close" type="button" aria-label="Close request form" onClick={() => setIsRequestOpen(false)}>×</button>
           <img className="form-logo" src={cabreraLogo} alt="Cabrera Towing logo" />
           <form className="request-form" onSubmit={handleRequestSubmit} noValidate>
             <div className="form-header"><div><span>Service request · Solicitud de servicio</span><h3>How can we help?<small>¿Cómo podemos ayudarle?</small></h3></div></div>
