@@ -5,19 +5,19 @@ import towingHeader from './assets/cabrera_header.png'
 import cabreraLogo from './assets/cabrera_logo.png'
 
 //slideshow images
-import work1 from './assets/work_1.png'
+import towingPhoto from './assets/towing.png'
 import work2 from './assets/work_2.png'
 import work3 from './assets/work_3.png'
-import work4 from './assets/work_4.png'
+import roadsidePhoto from './assets/roadside_assistance.png'
 import work5 from './assets/work_5.png'
-import work6 from './assets/work_6.png'
+import junkRemovalPhoto from './assets/junk_removal.png'
 import work7 from './assets/work_7.png'
 import work8 from './assets/work_8.png'
 import './App.css'
 
 const phoneDisplay = '(773) 647-2002'
 const phoneNumber = '7736472002'
-const workImages = [work1, work2, work3, work4, work5, work6, work7, work8]
+const workImages = [towingPhoto, work2, work3, roadsidePhoto, work5, junkRemovalPhoto, work7, work8]
 
 function PhoneIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7 2.4 9.4 7c.3.6.2 1.2-.3 1.7l-1.4 1.4a14.8 14.8 0 0 0 6.2 6.2l1.4-1.4c.5-.5 1.1-.6 1.7-.3l4.6 2.7c.5.3.8.9.7 1.5l-.3 2.1c-.1.7-.7 1.2-1.4 1.2C10.3 22 2 13.7 2 3.4 2 2.7 2.5 2.1 3.2 2l2.1-.3c.6-.1 1.1.2 1.4.7Z" /></svg>
@@ -152,9 +152,9 @@ function App() {
         <section className="services section" id="services">
           <div className="section-heading"><span className="eyebrow dark">What we do · Lo que hacemos</span><h2>Roadside help and a clear way forward.</h2><p>Asistencia en carretera y una solución clara. Estamos listos para ayudarle en inglés o español.</p></div>
           <div className="service-grid">
-            <article><h3>Local towing · Grúa local</h3><p>Dependable vehicle transport with clear communication. Transporte confiable con comunicación clara.</p></article>
-            <article><h3>Roadside help · Asistencia</h3><p>Jump starts, tire changes, and lockout help. Arranque de batería, cambio de llanta y apertura de puertas.</p></article>
-            <article><h3>Available 24/7 · 24 horas</h3><p>Call or text any time for quick assistance. Llame o mande mensaje en cualquier momento.</p></article>
+            <article><img src={towingPhoto} alt="Cabrera Towing transporting a vehicle" /><div className="service-card-copy"><h3>Local towing · Grúa local</h3><p>Dependable vehicle transport with clear communication. Transporte confiable con comunicación clara.</p></div></article>
+            <article><img src={roadsidePhoto} alt="Cabrera Towing providing roadside assistance" /><div className="service-card-copy"><h3>Roadside help · Asistencia</h3><p>Jump starts, tire changes, and lockout help. Arranque de batería, cambio de llanta y apertura de puertas.</p></div></article>
+            <article><img src={junkRemovalPhoto} alt="Cabrera Towing removing an unwanted vehicle" /><div className="service-card-copy"><h3>Junk car removal · Retiro de autos</h3><p>Removal for unwanted vehicles with fast, straightforward service. Retiro rápido y sencillo de vehículos no deseados.</p></div></article>
           </div>
         </section>
 
@@ -173,8 +173,8 @@ function App() {
               <button className="slide-arrow previous" type="button" onClick={() => setCurrentSlide((current) => (current - 1 + workImages.length) % workImages.length)} aria-label="Previous photo">‹</button>
               <button className="slide-arrow next" type="button" onClick={() => setCurrentSlide((current) => (current + 1) % workImages.length)} aria-label="Next photo">›</button>
             </div>
-            <div className="slide-dots" aria-label="Choose a photo">
-              {workImages.map((_, index) => <button key={index} type="button" className={index === currentSlide ? 'active' : ''} onClick={() => setCurrentSlide(index)} aria-label="View work photo" aria-current={index === currentSlide ? 'true' : undefined} />)}
+            <div className="slide-thumbnails" aria-label="Choose a photo">
+              {workImages.map((image, index) => <button key={image} type="button" className={index === currentSlide ? 'active' : ''} onClick={() => setCurrentSlide(index)} aria-label="View work photo" aria-current={index === currentSlide ? 'true' : undefined}><img src={image} alt="" /></button>)}
             </div>
           </div>
         </section>
