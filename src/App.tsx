@@ -18,6 +18,7 @@ import './App.css'
 const phoneDisplay = '(773) 647-2002'
 const phoneNumber = '7736472002'
 const workImages = [towingPhoto, work2, work3, roadsidePhoto, work5, junkRemovalPhoto, work7, work8]
+const serviceAreas = ['Blue Island', 'Posen', 'Harvey', 'Riverdale', 'Calumet Park', 'Calumet City', 'Markham', 'Hazel Crest', 'Country Club Hills', 'Oak Forest', 'Homewood', 'Chicago Heights', 'Midlothian', 'Robbins', 'Dixmoor', 'South Holland', 'Alsip']
 
 function PhoneIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7 2.4 9.4 7c.3.6.2 1.2-.3 1.7l-1.4 1.4a14.8 14.8 0 0 0 6.2 6.2l1.4-1.4c.5-.5 1.1-.6 1.7-.3l4.6 2.7c.5.3.8.9.7 1.5l-.3 2.1c-.1.7-.7 1.2-1.4 1.2C10.3 22 2 13.7 2 3.4 2 2.7 2.5 2.1 3.2 2l2.1-.3c.6-.1 1.1.2 1.4.7Z" /></svg>
@@ -25,6 +26,10 @@ function PhoneIcon() {
 
 function MessageIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v13H8l-4 4V4Zm4 5h8m-8 4h5" /></svg>
+}
+
+function EmailIcon() {
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3V5Zm1 1 8 7 8-7" /></svg>
 }
 
 type FieldName = 'name' | 'phone' | 'service' | 'location'
@@ -218,7 +223,21 @@ function App() {
         </section>
       </main>
 
-      <footer><div className="brand"><span className="brand-mark">CT</span><span>Cabrera Towing <small>Inc.</small></span></div><p>Fast and reliable service · Servicio rápido y confiable</p><a href={`tel:${phoneNumber}`}>{phoneDisplay}</a></footer>
+      <footer>
+        <div className="footer-intro">
+          <img src={cabreraLogo} alt="Cabrera Towing" />
+          <div><strong>Cabrera Towing</strong><span>Fast and reliable service<br />Servicio rápido y confiable</span></div>
+        </div>
+        <div className="footer-contact">
+          <h2>Contact · Contacto</h2>
+          <a href={`tel:${phoneNumber}`}><PhoneIcon /> {phoneDisplay}</a>
+          <a href="mailto:cabreratowing@gmail.com"><EmailIcon /> cabreratowing@gmail.com</a>
+        </div>
+        <div className="footer-areas">
+          <h2>Service Areas · Áreas de servicio</h2>
+          <ul>{serviceAreas.map((area) => <li key={area}>{area}</li>)}</ul>
+        </div>
+      </footer>
     </div>
   )
 }
