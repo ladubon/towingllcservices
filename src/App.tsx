@@ -19,6 +19,17 @@ const phoneDisplay = '(773) 647-2002'
 const phoneNumber = '7736472002'
 const workImages = [towingPhoto, work2, work3, roadsidePhoto, work5, junkRemovalPhoto, work7, work8]
 const serviceAreas = ['Blue Island', 'Posen', 'Harvey', 'Riverdale', 'Calumet Park', 'Calumet City', 'Markham', 'Hazel Crest', 'Country Club Hills', 'Oak Forest', 'Homewood', 'Chicago Heights', 'Midlothian', 'Robbins', 'Dixmoor', 'South Holland', 'Alsip']
+const turnstileSiteKey = '0x4AAAAAAFNLf2djCKAe8-4i'
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: HTMLElement, options: Record<string, string>) => string
+      remove: (widgetId: string) => void
+      reset: (widgetId: string) => void
+    }
+  }
+}
 
 function PhoneIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.7 2.4 9.4 7c.3.6.2 1.2-.3 1.7l-1.4 1.4a14.8 14.8 0 0 0 6.2 6.2l1.4-1.4c.5-.5 1.1-.6 1.7-.3l4.6 2.7c.5.3.8.9.7 1.5l-.3 2.1c-.1.7-.7 1.2-1.4 1.2C10.3 22 2 13.7 2 3.4 2 2.7 2.5 2.1 3.2 2l2.1-.3c.6-.1 1.1.2 1.4.7Z" /></svg>
@@ -30,6 +41,46 @@ function MessageIcon() {
 
 function EmailIcon() {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3V5Zm1 1 8 7 8-7" /></svg>
+}
+
+function ChevronIcon({ direction }: { direction: 'previous' | 'next' }) {
+  return <svg className={direction === 'next' ? 'chevron-next' : ''} viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+}
+
+function TurnstileWidget({ submitting, succeeded }: { submitting: boolean; succeeded: boolean }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const widgetIdRef = useRef<string | null>(null)
+  const submittedRef = useRef(false)
+
+  useEffect(() => {
+    const renderWidget = () => {
+      if (!containerRef.current || !window.turnstile || widgetIdRef.current) return false
+      widgetIdRef.current = window.turnstile.render(containerRef.current, {
+        sitekey: turnstileSiteKey,
+        action: 'service_request',
+        theme: 'light',
+        language: 'auto',
+      })
+      return true
+    }
+
+    if (!renderWidget()) {
+      const timer = window.setInterval(() => {
+        if (renderWidget()) window.clearInterval(timer)
+      }, 100)
+      return () => window.clearInterval(timer)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (submitting) submittedRef.current = true
+    if (!submitting && submittedRef.current && !succeeded && widgetIdRef.current) {
+      window.turnstile?.reset(widgetIdRef.current)
+      submittedRef.current = false
+    }
+  }, [submitting, succeeded])
+
+  return <div ref={containerRef} />
 }
 
 type FieldName = 'name' | 'phone' | 'service' | 'location'
@@ -175,8 +226,8 @@ function App() {
               {workImages.map((image, index) => (
                 <img key={image} className={index === currentSlide ? 'work-slide active' : 'work-slide'} src={image} alt="Cabrera Towing service work" aria-hidden={index !== currentSlide} />
               ))}
-              <button className="slide-arrow previous" type="button" onClick={() => setCurrentSlide((current) => (current - 1 + workImages.length) % workImages.length)} aria-label="Previous photo">‹</button>
-              <button className="slide-arrow next" type="button" onClick={() => setCurrentSlide((current) => (current + 1) % workImages.length)} aria-label="Next photo">›</button>
+              <button className="slide-arrow previous" type="button" onPointerDown={(event) => event.stopPropagation()} onPointerUp={(event) => event.stopPropagation()} onClick={() => setCurrentSlide((current) => (current - 1 + workImages.length) % workImages.length)} aria-label="Previous photo"><ChevronIcon direction="previous" /></button>
+              <button className="slide-arrow next" type="button" onPointerDown={(event) => event.stopPropagation()} onPointerUp={(event) => event.stopPropagation()} onClick={() => setCurrentSlide((current) => (current + 1) % workImages.length)} aria-label="Next photo"><ChevronIcon direction="next" /></button>
             </div>
             <div className="slide-thumbnails" aria-label="Choose a photo">
               {workImages.map((image, index) => <button key={image} type="button" className={index === currentSlide ? 'active' : ''} onClick={() => setCurrentSlide(index)} aria-label="View work photo" aria-current={index === currentSlide ? 'true' : undefined}><img src={image} alt="" /></button>)}
@@ -196,6 +247,7 @@ function App() {
           <button className="modal-close" type="button" aria-label="Close request form" onClick={() => setIsRequestOpen(false)}>×</button>
           <img className="form-logo" src={cabreraLogo} alt="Cabrera Towing logo" />
           <form className="request-form" onSubmit={handleRequestSubmit} noValidate>
+            <label className="spam-trap" aria-hidden="true">Leave this field empty<input name="_gotcha" tabIndex={-1} autoComplete="off" /></label>
             <div className="form-header"><div><span>Service request · Solicitud de servicio</span><h3>How can we help?<small>¿Cómo podemos ayudarle?</small></h3></div></div>
             {formState.succeeded ? (
               <div className="form-success" role="status">
@@ -214,6 +266,10 @@ function App() {
               <label>Service needed · Servicio necesario <b aria-hidden="true">*</b><span className="field-control"><FieldIcon name="service" /><select name="service" required defaultValue="" aria-invalid={Boolean(fieldErrors.service)} onChange={() => clearFieldError('service')}><option value="" disabled>Select a service / Seleccione un servicio</option><option>Local towing / Grúa local</option><option>Junk car removal / Retiro de auto chatarra</option><option>Vehicle transport / Transporte de vehículo</option><option>Other roadside help / Otra asistencia</option></select></span>{fieldErrors.service && <span className="field-error">{fieldErrors.service}</span>}<ValidationError field="service" errors={formState.errors} /></label>
               <label>Pickup location · Ubicación de recogida <b aria-hidden="true">*</b><span className="field-control"><FieldIcon name="location" /><input name="location" required minLength={3} placeholder="Address or landmark / Dirección o punto de referencia" aria-invalid={Boolean(fieldErrors.location)} onChange={() => clearFieldError('location')} /></span>{fieldErrors.location && <span className="field-error">{fieldErrors.location}</span>}<ValidationError field="location" errors={formState.errors} /></label>
               <label>Notes · Notas <small>(Optional / Opcional)</small><span className="field-control textarea-control"><FieldIcon name="details" /><textarea name="details" rows={3} placeholder="Explain what you need / Explique lo que necesita" /></span><ValidationError field="details" errors={formState.errors} /></label>
+              <div className="turnstile-wrap">
+                <TurnstileWidget submitting={formState.submitting} succeeded={formState.succeeded} />
+                <p>Protected from spam by Cloudflare Turnstile · Protegido contra spam</p>
+              </div>
               <ValidationError errors={formState.errors} className="error-message" />
               <button className="submit-button" type="submit" disabled={formState.submitting}>{formState.submitting ? 'Sending · Enviando…' : 'Send request · Enviar solicitud'} {!formState.submitting && <span>→</span>}</button>
               <p className="form-disclaimer">By submitting, you agree that Cabrera Towing may contact you about this request.<br />Al enviar, acepta que Cabrera Towing se comunique con usted sobre esta solicitud.</p>
